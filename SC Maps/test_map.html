@@ -40,9 +40,8 @@
 <div id='map'></div>
 
 
-<script type="text/javascript" src="coords.js"></script>
-<script src="map_data_1.php"></script>
-<script src="map_data_2.php"></script>
+<script type="text/javascript" src="timezones.js"></script>
+
 
 
 <script>
@@ -76,106 +75,26 @@ var mapOne = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?a
 	  
 	}).addTo(map);
 		
-function onEachFeature(feature, layer) {
-	
-				if (feature.properties.hasPilots == true ) {
-						layer.bindTooltip("<strong>" + feature.properties.name + "</strong><br/>" + " Pilots flying: " + feature.properties.pilots, {sticky: true, interactive: false, nowrap: true, direction: 'top'})
-				
-			}	
-	layer.on({
-			mouseover: highlightFeature,
-			mouseout: resetHighlight,
-			
-		});
-	}	
 
+
+function onEachFeature(feature, layer) {
+	layer.bindTooltip("UTC " + feature.properties.ZONE, {sticky: true})
+};
+	
 
 //adding GeoJSON-File with country-data and pilots	
-var data1 = L.geoJson(worldData, {
-	style: function(feature){
-				var density = feature.properties.pilots;
-				var fillColor = "#FFFFFF";
-				var FillOpacity = .6;
-				var weight = 1;
-			
-
-				if (density > 13 ) {fillColor = "#800026";}
-				else if (density >= 11 ) {fillColor = "#bd0026";}
-				else if (density >= 9 ) {fillColor = "#e31a1c";}
-				else if (density >= 7 ) {fillColor = "#fc4e2a";}
-				else if (density >= 5 ) {fillColor = "#fd8d3c";}
-				else if (density >= 3 ) {fillColor = "#feb24c";}
-				else if (density >= 1 ) {fillColor = "#fed976";}
-				else {FillOpacity = 0; weight = 0.5}
-			
-				var tempStyle = {
-					"color": "#000000",
-					"weight": weight,
-					"fillColor": fillColor,
-					"fillOpacity": FillOpacity
-					}
-				
-						return tempStyle;
-			},
-			
-			//delete comment tag to filter out polygons of all countries that have no pilots	
-			filter: function(feature, layer) {
-			return feature.properties.hasPilots;
-			}, 
+var data1 = L.geoJson(timeZoneData, {
 	
-
-	
-			//creating overlay with number of pilots on each country			
-			onEachFeature: onEachFeature
-			
-
+	onEachFeature: onEachFeature
 		
 }).addTo(map);
 
-		
-	
-//adding GeoJSON-File with country-data and pilots	
-var data2 = L.geoJson(usData, {
-	style: function(feature){
-				var density = feature.properties.pilots;
-				var fillColor = "#FFFFFF";
-				var FillOpacity = .6;
-				var weight = 1;
-			
-
-				if (density > 13 ) {fillColor = "#800026";}
-				else if (density >= 11 ) {fillColor = "#bd0026";}
-				else if (density >= 9 ) {fillColor = "#e31a1c";}
-				else if (density >= 7 ) {fillColor = "#fc4e2a";}
-				else if (density >= 5 ) {fillColor = "#fd8d3c";}
-				else if (density >= 3 ) {fillColor = "#feb24c";}
-				else if (density >= 1 ) {fillColor = "#fed976";}
-				else {FillOpacity = 0; weight = 0.5}
-			
-				var tempStyle = {
-					"color": "#000000",
-					"weight": weight,
-					"fillColor": fillColor,
-					"fillOpacity": FillOpacity
-					}
-				
-						return tempStyle;
-			},
-			
-			//delete comment tag to filter out polygons of all countries that have no pilots	
-			filter: function(feature, layer) {
-			return feature.properties.hasPilots;
-			}, 
-	
 
 	
-			//creating popup with number of pilots on each country			
-			onEachFeature: onEachFeature
-		
-});
 
 
-	
+
+/*	
 // info
 
 	var info = L.control();
@@ -235,7 +154,7 @@ function resetHighlight(e) {
 
 
 
-
+*/
 
 	
 
