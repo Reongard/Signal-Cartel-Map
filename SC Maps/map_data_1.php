@@ -13,7 +13,7 @@ var worldData = {
             "pilots": 10,
             "hasPilots": true,
             "name": "United States",
-            "alts": "Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> Sky</br>Auds</br>ADP</br>"
+            "alts": "Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> "
         },
         "geometry": {
             "type": "MultiPolygon",
