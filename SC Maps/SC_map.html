@@ -1,6 +1,6 @@
-
-<!--Version 1.3 Changelog: Username-Legend added-->
-
+<!-- ===Version 1.3.===
+	Changelog: Added Legend with Ingame-Names for each country if available -->
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,9 +40,9 @@
 <div id='map'></div>
 
 
-<script type="text/javascript" src="coordswithus.js"></script>
-<script src="https://dev.evescoutrescue.com/wip/mma/rest/map_data.php?usstates=on"></script>
-<script src="https://dev.evescoutrescue.com/wip/mma/rest/map_data.php"></script>
+<script type="text/javascript" src="coords.js"></script>
+<script src="map_data_1.php"></script>
+<script src="map_data_2.php"></script>
 
 
 <script>
@@ -76,7 +76,20 @@ var mapOne = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?a
 	  
 	}).addTo(map);
 		
+function onEachFeature(feature, layer) {
 	
+				if (feature.properties.hasPilots == true ) {
+						layer.bindTooltip("<strong>" + feature.properties.name + "</strong><br/>" + " Pilots flying: " + feature.properties.pilots, {sticky: true, interactive: false, nowrap: true, direction: 'top'})
+				
+			}	
+	layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			
+		});
+	}	
+
+
 //adding GeoJSON-File with country-data and pilots	
 var data1 = L.geoJson(worldData, {
 	style: function(feature){
@@ -112,11 +125,10 @@ var data1 = L.geoJson(worldData, {
 	
 
 	
-			//creating popup with number of pilots on each country			
-			onEachFeature: function( feature, layer) {
-				if (feature.properties.hasPilots == true ) {
-						layer.bindTooltip("<strong>" + feature.properties.name + "</strong><br/>" + " Pilots flying: " + feature.properties.pilots, {sticky: true, interactive: false, nowrap: true, direction: 'top'})
-			}}
+			//creating overlay with number of pilots on each country			
+			onEachFeature: onEachFeature
+			
+
 		
 }).addTo(map);
 
@@ -158,16 +170,14 @@ var data2 = L.geoJson(usData, {
 
 	
 			//creating popup with number of pilots on each country			
-			onEachFeature: function( feature, layer) {
-				if (feature.properties.hasPilots == true ) {
-						layer.bindTooltip("<strong>" + feature.properties.name + "</strong><br/>" + " Pilots flying: " + feature.properties.pilots, {sticky: true, interactive: false, nowrap: true, direction: 'top'})
-			}}
+			onEachFeature: onEachFeature
 		
 });
 
 
 	
-// legend
+// info
+
 	var info = L.control();
 
 	info.onAdd = function (map) {
@@ -180,21 +190,53 @@ var data2 = L.geoJson(usData, {
 		this._div.innerHTML = '<h4>Signal Cartel Pilots</h4>' +   'Hover over a state' + "<br/>" + "Pilots flying: " + "<strong>" + allPilots + "</strong>";
 	};
 
-	info.addTo(map);
+	info.addTo(map); 
 
 
-
-var baseMaps = {
+	var baseMaps = {
 	"Default" : mapOne
-};
+}
 
 
 var overlayMaps = {
 	"USA": data1,
 	"US States": data2
+}
+
+L.control.layers(overlayMaps,null,{position: 'topleft', collapsed:false}).addTo(map);
+
+// control that shows state info on hover
+var info = L.control();
+
+info.onAdd = function (map) {
+	this._div = L.DomUtil.create('div', 'info');
+	this.update();
+	return this._div;
 };
 
-L.control.layers(overlayMaps,null,{collapsed:false}).addTo(map);
+info.update = function (props) {
+	this._div.innerHTML = '<h4>Pilots flying in:</h4>' +  (props ?
+		'<b>' + props.name + '</b><br />' + props.alts  
+		: 'Hover over a state');
+};
+
+info.addTo(map);
+
+
+function highlightFeature(e) {
+	var layer = e.target;
+	info.update(layer.feature.properties);
+} 
+
+function resetHighlight(e) {
+	info.update();
+	}
+
+
+
+
+
+
 	
 
 
