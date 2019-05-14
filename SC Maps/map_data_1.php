@@ -12,7 +12,8 @@ var worldData = {
         "properties": {
             "pilots": 10,
             "hasPilots": true,
-            "name": "United States"
+            "name": "United States",
+            "alts": "Hiro</br> Sky</br>Auds</br>ADP</br>Hiro</br> "
         },
         "geometry": {
             "type": "MultiPolygon",
@@ -709,7 +710,9 @@ var worldData = {
         "properties": {
             "pilots": "2",
             "hasPilots": true,
-            "name": "Denmark"
+            "name": "Denmark",
+            "alts": "",
+            
         },
         "geometry": {
             "type": "MultiPolygon",
@@ -1004,18 +1007,7 @@ var worldData = {
             "coordinates": Greece_Coords
         }
     },
-    {
-        "type": "Feature",
-        "properties": {
-            "pilots": 0,
-            "hasPilots": false,
-            "name": "Greenland"
-        },
-        "geometry": {
-            "type": "MultiPolygon",
-            "coordinates": Greenland_Coords
-        }
-    },
+  
     {
         "type": "Feature",
         "properties": {
@@ -2113,7 +2105,8 @@ var worldData = {
         "properties": {
             "pilots": "22",
             "hasPilots": true,
-            "name": "Russian Federation"
+            "name": "Russian Federation",
+            "alts": "Someone </br> Anotherone"
         },
         "geometry": {
             "type": "MultiPolygon",

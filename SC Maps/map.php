@@ -48,8 +48,8 @@ html, body {height: 100%;}
   </div>
 </body>
 <script type="text/javascript" src="/mma/html/js/map:coords.js"></script>
-<script src="https://dev.evescoutrescue.com/wip/mma/rest/map_data.php?usstates=on"></script>
-<script src="https://dev.evescoutrescue.com/wip/mma/rest/map_data.php"></script>
+<script src="/mma/rest/map_data.php?usstates=on"></script>
+<script src="/mma/rest/map_data.php"></script>
 
 <script>
 var xcorner1 = L.latLng(90,180);
@@ -79,6 +79,20 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
         ],
 
     }).addTo(map);
+
+//Function for Layer-interaction
+
+function onEachFeature(feature, layer) {
+	
+    if (feature.properties.hasPilots == true ) {
+            layer.bindTooltip("<strong>" + feature.properties.name + "</strong><br/>" + " Pilots flying: " + feature.properties.pilots, {sticky: true, interactive: false, nowrap: true, direction: 'top'})
+        }	
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+
+});
+}
 
 //adding GeoJSON-File with country-data and pilots	
 var layerWorld = L.geoJson(worldData, {
@@ -117,19 +131,11 @@ var layerWorld = L.geoJson(worldData, {
         return tempStyle;
     },
 
-//delete comment tag to filter out polygons of all countries that have no pilots
-/*
-filter: function(feature, layer) {
-    return feature.properties.hasPilots;
-}, 
-*/
 
-//creating popup with number of pilots on each country
-onEachFeature: function (feature, layer) {
-    if (feature.properties.hasPilots == true) {
-        layer.bindTooltip("<strong>" + feature.properties.name + "</strong><br/>" + " Pilots flying: " + feature.properties.pilots, { sticky: true, interactive: false, nowrap: true, direction: 'top' })
-    }
-}}).addTo(map);
+    onEachFeature: onEachFeature
+
+
+}).addTo(map);
 
 var layerUs = L.geoJson(usData, {
     style: function (feature) {
@@ -167,21 +173,11 @@ var layerUs = L.geoJson(usData, {
         return tempStyle;
     },
 
-//delete comment tag to filter out polygons of all countries that have no pilots
-/*
-filter: function(feature, layer) {
-    return feature.properties.hasPilots;
-}, 
-*/
+    onEachFeature: onEachFeature
 
-//creating popup with number of pilots on each country
-onEachFeature: function (feature, layer) {
-    if (feature.properties.hasPilots == true) {
-        layer.bindTooltip("<strong>" + feature.properties.name + "</strong><br/>" + " Pilots flying: " + feature.properties.pilots, { sticky: true, interactive: false, nowrap: true, direction: 'top' })
-    }
-}});
+});
 
-// legend
+// General legend
 var info = L.control();
 
 info.onAdd = function (map) {
@@ -191,17 +187,47 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h4>Signal Cartel Pilots</h4>' +   'Hover over a state' + "<br/>" + "Pilots flying: " + "<strong>" + allPilots + "</strong>";
+    this._div.innerHTML = '<h4>Signal Cartel Pilots</h4>' +   'Hover over a state' + "<br/>" + "Signal Pilots: " + "<strong>" + allPilots + "</strong>";
 };
 
+//Layer element to switch between US and States data
 
 var overlayMaps = {
 	"All Countries": layerWorld,
 	"US States": layerUs
 };
 
-L.control.layers(overlayMaps,null,{collapsed:false}).addTo(map);
+L.control.layers(overlayMaps,null,{position: 'topleft', collapsed:false}).addTo(map);
 
 info.addTo(map);
+
+//Legend showing the names of opted-in pilots
+
+function highlightFeature(e) {
+	var layer = e.target;
+	info.update(layer.feature.properties);
+} 
+
+function resetHighlight(e) {
+	info.update();
+	}
+
+var info = L.control();
+
+info.onAdd = function (map) {
+	this._div = L.DomUtil.create('div', 'info');
+	this.update();
+	return this._div;
+};
+
+info.update = function (props) {
+	this._div.innerHTML = '<h4>Pilots from:</h4>' +  (props ?
+		'<b>' + props.name + '</b><br />' + props.alts  
+		: 'Hover over a state');
+};
+
+info.addTo(map);
+
+
 </script>
 </html>	
