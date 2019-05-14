@@ -187,7 +187,7 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h4>Signal Cartel Pilots</h4>' +   'Hover over a state' + "<br/>" + "Pilots flying: " + "<strong>" + allPilots + "</strong>";
+    this._div.innerHTML = '<h4>Signal Cartel Pilots</h4>' +   'Hover over a state' + "<br/>" + "Signal Pilots: " + "<strong>" + allPilots + "</strong>";
 };
 
 //Layer element to switch between US and States data
@@ -221,7 +221,7 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-	this._div.innerHTML = '<h4>Pilots flying in:</h4>' +  (props ?
+	this._div.innerHTML = '<h4>Pilots from:</h4>' +  (props ?
 		'<b>' + props.name + '</b><br />' + props.alts  
 		: 'Hover over a state');
 };
