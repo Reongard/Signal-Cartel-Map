@@ -48,8 +48,8 @@ html, body {height: 100%;}
   </div>
 </body>
 <script type="text/javascript" src="/mma/html/js/map:coords.js"></script>
-<script src="https://dev.evescoutrescue.com/wip/mma/rest/map_data.php?usstates=on"></script>
-<script src="https://dev.evescoutrescue.com/wip/mma/rest/map_data.php"></script>
+<script src="/mma/rest/map_data.php?usstates=on"></script>
+<script src="/mma/rest/map_data.php"></script>
 
 <script>
 var xcorner1 = L.latLng(90,180);
